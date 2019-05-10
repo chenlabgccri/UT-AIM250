@@ -1,32 +1,4 @@
-# Fuctions of admixture program, they are
-#1)
-
-
-
-
-
-
-#Call specific positions on WES data
-##Requirment
-Admixture_callMutations <- function(sampleFiles,sampleNames,ref_file
-                                    ,ref.genome = c("GRCh38","GRCh37"),outputName = "UT-AIM250"){
-  
-  if(tolower(ref.genome) == "grch38"){
-    AIM250_GRCH38 <- "UT-AIM250_grch38.bed"
-    CMD <- paste0("samtools mpileup -B -C 50 -q 10 -d 10000 -l ",AIM250_GRCH38," -b ",sampleFiles," -f ",ref_file," | varscan mpileup2cns --mpileup 1 --min-coverage 2 --output-vcf 1 --vcf-sample-list ",sampleNames," --p-value 0.99 > ",paste0(outputName, ".vcf"))
-    print(CMD)
-    system(CMD)
-    
-  }else{
-    AIM250_GRCH37 <- "UT-AIM250_grch37.bed"
-    CMD <- paste0("samtools mpileup -B -C 50 -q 10 -d 10000 -l ",AIM250_GRCH37," -b ",sampleFiles," -f ",ref_file," | varscan mpileup2cns --mpileup 1 --min-coverage 2 --output-vcf 1 --vcf-sample-list ",sampleNames," --p-value 0.99 > ",paste0(outputName, ".vcf"))
-    print(CMD)
-    system(CMD)
-    
-  }
-  
-}
-
+# Fuctions of admixture program
 
 #Compress and modify vcf files 
 Admixture_modifyVCF <- function(inputFiles, outputName, threads = 1, temp, positions = FALSE, ref.genome = c("GRCh38","GRCh37"), chr.label = FALSE){
@@ -46,7 +18,6 @@ Admixture_modifyVCF <- function(inputFiles, outputName, threads = 1, temp, posit
     print(CMD3)
     system(CMD3)
     
-    #CMD4 <- paste0("vcftools --gzvcf ",paste0(outputName,"_SNP_GT_noINFO.vcf.gz")," --min-alleles 2 --max-alleles 2 --remove-indels --recode-INFO-all --temp ",temp," --recode --out ",paste0(outputName,"_complete"))
     CMD4 <- paste0("vcftools --gzvcf ",paste0(outputName,"_SNP_GT_noINFO.vcf.gz")," --min-alleles 2 --max-alleles 2 --remove-indels --recode-INFO-all --max-missing 0.9 --temp ",temp," --recode --out ",paste0(outputName,"_complete"))
     
     print(CMD4)
