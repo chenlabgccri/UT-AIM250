@@ -1,9 +1,9 @@
 # Fuctions of admixture program
 
 #Compress and modify vcf files 
-Admixture_modifyVCF <- function(inputFiles, outputName, threads = 1, temp, positions = FALSE, ref.genome = c("GRCh38","GRCh37"), chr.label = FALSE){
+Admixture_modifyVCF <- function(inputFiles, outputName, threads = 1, temp, AIM250_pos = FALSE, ref.genome = c("GRCh38","GRCh37"), chr.label = FALSE){
   
-  if(positions == FALSE){
+  if(AIM250_pos == FALSE){
     cat("Compress VCF files","\n",paste("Threads:", threads),"\n")
     CMD1 <- paste0("bgzip -c --threads ",threads," ",inputFiles," > ",paste0(outputName,".vcf.gz"))
     print(CMD1)
